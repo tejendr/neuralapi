@@ -7,6 +7,7 @@ const jobRouter = require("./routes/api/job");
 const departmentRouter = require("./routes/api/department");
 const postingTitle = require("./routes/api/postingTitle");
 const screeningQuestion = require("./routes/api/screeningQuestion");
+const messagesRouter = require("./routes/api/messages");
 const app = express();
 
 require("dotenv").config();
@@ -17,7 +18,7 @@ const DB =
 
 mongoose
 	.connect(
-		"mongodb+srv://recruiter:recruiter@123@recruiter-react.jcez1.mongodb.net/recruiter-react?retryWrites=true&w=majority",
+		"mongodb+srv://rushil:Rd1701@2001@recruiter-react.jcez1.mongodb.net/recruiter-react?retryWrites=true&w=majority",
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
@@ -45,5 +46,6 @@ app.use("/api/job", jobRouter);
 app.use("/api/department", departmentRouter);
 app.use("/api/postingTitle", postingTitle);
 app.use("/api/screeningQuestion", screeningQuestion);
+app.use("/api/messages", messagesRouter);
 
 app.listen(PORT, () => console.log(`Server Started on port ${PORT}`));

@@ -1,4 +1,5 @@
 /** @format */
+const candidate = require("../models/candidate");
 const Job = require("../models/jobModel");
 
 exports.getJobs = async (req, res) => {
@@ -7,11 +8,20 @@ exports.getJobs = async (req, res) => {
 			.populate("screeningQuestion")
 			.populate("postingTitle");
 
+		const newJobs = await Promise.all(
+			jobs.map(async job => {
+				const candidateCount = await candidate.find({ jobId: job._id });
+				// console.log(candidateCount.length);
+				return { ...job._doc, candidateCount: candidateCount.length };
+			})
+		);
+		console.log(newJobs);
+
 		res.status(200).json({
 			status: "success",
-			results: jobs.length,
+			results: newJobs.length,
 			data: {
-				data: jobs
+				data: newJobs
 			}
 		});
 	} catch (error) {

@@ -15,10 +15,12 @@ const chatFormat = mongoose.Schema(
 const chatSchema = mongoose.Schema({
 	candidateId: {
 		type: mongoose.Types.ObjectId,
-		ref: "Candidate"
+		ref: "Candidate",
+		required: [true, "Candidate Id is requied"]
 	},
 	uid: {
-		type: String
+		type: String,
+		required: [true, "Uid is required"]
 	},
 	chat: {
 		type: [chatFormat],

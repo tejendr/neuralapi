@@ -53,17 +53,69 @@ router.get("/", (req, res) => {
 });
 
 // Get Candidates based on job id
-
 router.get("/job/:postingTitle", async (req, res) => {
 	try {
 		const candidates = await Candidate.find({
-			postingTitle: req.params.postingTitle
+			jobId: req.params.postingTitle
 		});
 		res.status(200).json({
 			status: "Success",
 			results: candidates.length,
 			data: { data: candidates }
 		});
+	} catch (error) {
+		res.status(404).json({
+			status: "Failed"
+		});
+	}
+});
+
+router.get("/unassigned", async (req, res) => {
+	try {
+		const candidates = await Candidate.find({
+			jobId: { $exists: false }
+		});
+
+		res.status(200).json({
+			status: "Success",
+			result: candidates.length,
+			data: { data: candidates }
+		});
+	} catch (error) {
+		res.status(404).json({
+			status: "Failed"
+		});
+	}
+});
+
+router.get("/action/:action", async (req, res) => {
+	try {
+		if (
+			req.params.action === "Schedule" ||
+			req.params.action === "Disqualify" ||
+			req.params.action === "Shortlist" ||
+			req.params.action === "Assess Further" ||
+			req.params.action === "Future Reference" ||
+			req.params.action === "Schedule Later"
+		) {
+			const candidates = await Candidate.find({
+				action: req.params.action
+			})
+				.populate("departmentId")
+				.populate("jobId");
+
+			res.status(200).json({
+				status: "Success",
+				result: candidates.length,
+				data: { data: candidates }
+			});
+		} else {
+			res.status(400).json({
+				status: "Failed",
+				msg:
+					"Please send a valid action which is [Schedule, Disqualify, Shortlist, Assess Further, Future Reference]"
+			});
+		}
 	} catch (error) {
 		res.status(404).json({
 			status: "Failed"
@@ -151,6 +203,8 @@ router.get("/:candidateId", (req, res) => {
 	const id = req.params.candidateId;
 	Candidate.findById(id)
 		.select("-__v")
+		.populate("departmentId")
+		.populate("postingTitle")
 		.exec()
 		.then(data => {
 			if (data) {

@@ -94,6 +94,11 @@ asap@^2.0.0:
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
+async@^1.4.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
+  integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
+
 axios@^0.19.2:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
@@ -949,6 +954,13 @@ mongodb@3.6.3:
     safe-buffer "^5.1.2"
   optionalDependencies:
     saslprep "^1.0.0"
+
+mongoose-fill@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/mongoose-fill/-/mongoose-fill-1.7.0.tgz#dab72b34b9600133be7504a7f4bf2ff2d316014d"
+  integrity sha1-2rcrNLlgATO+dQSn9L8v8tMWAU0=
+  dependencies:
+    async "^1.4.2"
 
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
