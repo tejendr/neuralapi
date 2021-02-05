@@ -18,7 +18,7 @@ const DB =
 
 mongoose
 	.connect(
-		"mongodb+srv://rushil:Rd1701@2001@recruiter-react.jcez1.mongodb.net/recruiter-react?retryWrites=true&w=majority",
+		"mongodb+srv://testuser:test@user@react-recruiter.5utgy.mongodb.net/recruiter-react?retryWrites=true&w=majority",
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true,

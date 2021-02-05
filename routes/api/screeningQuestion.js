@@ -8,10 +8,16 @@ const {
 	updateScreeningQuestion,
 	deleteScreeningQuestion,
 	getOneScreeningQuestion,
-	getScreeningQuestionsByDepartment
+	getScreeningQuestionsByDepartment,
+	getGeneralScreeningQuestions,
+	getDepartmentBasedScreeningQuestions
 } = require("../../controllers/screeningQuestionController");
 
 router.route("/").get(getScreeningQuestion).post(createScreeningQuestion);
 router.route("/:department").get(getScreeningQuestionsByDepartment);
+router
+	.route("/department/:department")
+	.get(getDepartmentBasedScreeningQuestions);
+router.get("/general").get(getGeneralScreeningQuestions);
 
 module.exports = router;

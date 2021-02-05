@@ -24,7 +24,7 @@ exports.getScreeningQuestion = async (req, res) => {
 exports.getScreeningQuestionsByDepartment = async (req, res) => {
 	try {
 		const screeningQuestion = await ScreeningQuestion.find({
-			department: req.params.department
+			$or: [{ department: req.params.department }, { department: "General" }]
 		});
 
 		res.status(200).json({
@@ -118,6 +118,50 @@ exports.getOneScreeningQuestion = async (req, res) => {
 	} catch (error) {
 		res.status(400).json({
 			status: "Failed",
+			error: {
+				message: error.message
+			}
+		});
+	}
+};
+
+exports.getGeneralScreeningQuestions = async (req, res) => {
+	try {
+		const screeningQuestion = await ScreeningQuestion.find({
+			department: "General"
+		});
+
+		res.status(200).json({
+			status: "success",
+			data: {
+				data: screeningQuestion
+			}
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: "Fail",
+			error: {
+				message: error.message
+			}
+		});
+	}
+};
+
+exports.getDepartmentBasedScreeningQuestions = async (req, res) => {
+	try {
+		const screeningQuestion = await ScreeningQuestion.find({
+			department: req.params.department
+		});
+
+		res.status(200).json({
+			status: "success",
+			data: {
+				data: screeningQuestion
+			}
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: "Fail",
 			error: {
 				message: error.message
 			}

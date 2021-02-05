@@ -1,5 +1,5 @@
 /** @format */
-const candidate = require("../models/candidate");
+const Candidate = require("../models/candidate");
 const Job = require("../models/jobModel");
 
 exports.getJobs = async (req, res) => {
@@ -10,7 +10,7 @@ exports.getJobs = async (req, res) => {
 
 		const newJobs = await Promise.all(
 			jobs.map(async job => {
-				const candidateCount = await candidate.find({ jobId: job._id });
+				const candidateCount = await Candidate.find({ jobId: job._id });
 				// console.log(candidateCount.length);
 				return { ...job._doc, candidateCount: candidateCount.length };
 			})
@@ -26,7 +26,8 @@ exports.getJobs = async (req, res) => {
 		});
 	} catch (error) {
 		res.status(404).json({
-			status: "Failed"
+			status: "Failed",
+			error: error
 		});
 	}
 };
@@ -105,7 +106,19 @@ exports.updateJob = async (req, res) => {
 
 exports.deleteJob = async (req, res) => {
 	try {
-		const job = await Job.findByIdAndDelete(req.params.id);
+		const candidates = await Candidate.find({ jobId: req.params.id });
+		const newCandidates = await Promise.all(
+			candidates.map(
+				async candidate =>
+					await Candidate.findByIdAndUpdate(
+						candidate._id,
+						{ $unset: { jobId: 1 } },
+						{ new: true, runValidators: true }
+					)
+			)
+		);
+
+		await Job.findByIdAndDelete(req.params.id);
 
 		res.status(204).json({
 			status: "success",

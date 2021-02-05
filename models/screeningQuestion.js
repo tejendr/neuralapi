@@ -17,6 +17,7 @@ const screeningQuestionSchema = new mongoose.Schema({
 	},
 	questionType: {
 		type: String,
+		enum: ["Short Text", "True/False", "MCQ"],
 		required: [true, "Question Type is required"]
 	},
 	questionCategory: {
@@ -26,6 +27,9 @@ const screeningQuestionSchema = new mongoose.Schema({
 	checked: {
 		type: Boolean,
 		default: true
+	},
+	options: {
+		type: Array
 	}
 });
 

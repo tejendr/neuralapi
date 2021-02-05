@@ -34,8 +34,8 @@ const candidateSchema = mongoose.Schema({
 	notes: String,
 	jobId: {
 		type: mongoose.Schema.ObjectId,
-		ref: "Job",
-		required: [true, "Job Id is required"]
+		ref: "Job"
+		// required: [true, "Job Id is required"]
 	},
 	departmentId: {
 		type: String
@@ -63,6 +63,17 @@ const candidateSchema = mongoose.Schema({
 	},
 	action: {
 		type: String
+	},
+	skills: {
+		type: String
+	},
+	response: {
+		type: [responseSchema],
+		required: true
+	},
+	postingTitle: {
+		type: String,
+		required: true
 	}
 });
 
