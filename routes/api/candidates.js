@@ -5,6 +5,8 @@ const download = require("download");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const AWS = require("aws-sdk");
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, "./uploads/");
@@ -216,9 +218,32 @@ router.patch("/cv/:uid", async (req, res) => {
 	try {
 		if (req.body.url) {
 			const data = await download(req.body.url);
+
+			// fs.rmdir("dist", { recursive: true }, err => {
+			// 	console.log(err);
+			// });
+			const S3 = new AWS.S3({
+				accessKeyId: "AKIAT3GXKBEL6WSS2PUG",
+				secretAccessKey: "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"
+			});
+
+			const params = {
+				Bucket: "recruiter-bucket",
+				Key: `${req.params.uid}${Date.now()}.pdf`,
+				Body: data
+			};
+
+			const dataS3 = await S3.upload(params).promise();
+
+			const updatedCandidate = await Candidate.findOneAndUpdate(
+				{ uid: req.params.uid },
+				{ resume: dataS3.Location },
+				{ new: true, runValidators: true }
+			);
+
 			res.json({
-				status: "Done",
-				data: data
+				status: "Uploaded",
+				data: updatedCandidate
 			});
 		} else {
 			res.json({
@@ -296,8 +321,7 @@ router.patch("/:candidateId", upload.single("resume"), (req, res) => {
 	// } else {
 	Candidate.findByIdAndUpdate(id, req.body, { new: true })
 		.populate({ path: "jobId", populate: { path: "postingTitle" } })
-		.exec()
-		// in cases where jobids were not mentioned
+		.exec() // in cases where jobids were not mentioned
 		.then(result => {
 			res.status(201).json({ updatedCandidate: result });
 		})
