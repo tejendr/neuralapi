@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: neural-day-api
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: neural-day-api
   template:
     metadata:
       labels:
@@ -11,8 +14,9 @@ spec:
     spec:
       containers:
       - name: neural-day-api
-        image: IMAGE_NAME_TO_BE_REPLACED
-  
+        image: demo-dab631720210206184959
+        ports:
+        - containerPort: 8080
         resources:
           requests:
             cpu: 50m
