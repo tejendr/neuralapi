@@ -15,6 +15,9 @@ const {
 
 router.route("/").get(getScreeningQuestion).post(createScreeningQuestion);
 router.route("/:department").get(getScreeningQuestionsByDepartment);
+
+router.route("/:id").delete(deleteScreeningQuestion);
+
 router
 	.route("/department/:department")
 	.get(getDepartmentBasedScreeningQuestions);
