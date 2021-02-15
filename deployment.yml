@@ -39,7 +39,6 @@ spec:
       nodePort: 30002
   selector:
     app: neural-day-api
-  clusterIP: 10.245.134.221
   type: NodePort
   sessionAffinity: None
   externalTrafficPolicy: Cluster
