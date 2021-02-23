@@ -10,22 +10,17 @@ const screeningQuestion = require("./routes/api/screeningQuestion");
 const messagesRouter = require("./routes/api/messages");
 const app = express();
 
-require("dotenv").config();
+require("dotenv").config("./.env");
 
 const PORT = process.env.PORT || 5000;
-const DB =
-	"mongodb+srv://hiren_new_db:qm6AWtPrCNstdIv9@cluster0.5rchi.gcp.mongodb.net/restapi_test?retryWrites=true&w=majority";
 
 mongoose
-	.connect(
-		"mongodb+srv://testuser:test@user@react-recruiter.5utgy.mongodb.net/recruiter-react?retryWrites=true&w=majority",
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
-			useFindAndModify: false
-		}
-	)
+	.connect(process.env.DB_STRING, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: false
+	})
 	.then(() => console.log("Connected to DB"))
 	.catch(error => console.log(error));
 app.use(cors());
