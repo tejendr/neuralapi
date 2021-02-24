@@ -77,7 +77,7 @@ router.get("/job/:postingTitle", async (req, res) => {
 router.get("/unassigned", async (req, res) => {
 	try {
 		const candidates = await Candidate.find({
-			jobId: { $exists: false }
+			jobId: { s: false }
 		});
 
 		res.status(200).json({
@@ -198,9 +198,13 @@ router.post("/multiple", async (req, res) => {
 
 router.get("/not-visible", async (req, res) => {
 	try {
-		const candidates = await Candidate.find({ visible: false });
+		const candidates = await Candidate.find({
+			visible: false,
+			action: { $exists: false }
+		});
 		res.status(201).json({
 			status: "Success",
+			count: candidates.length,
 			data: {
 				data: candidates
 			}
