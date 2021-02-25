@@ -77,7 +77,7 @@ router.get("/job/:postingTitle", async (req, res) => {
 router.get("/unassigned", async (req, res) => {
 	try {
 		const candidates = await Candidate.find({
-			jobId: { s: false }
+			jobId: { $exists: false }
 		});
 
 		res.status(200).json({
@@ -87,7 +87,8 @@ router.get("/unassigned", async (req, res) => {
 		});
 	} catch (error) {
 		res.status(404).json({
-			status: "Failed"
+			status: "Failed",
+			error: error.message
 		});
 	}
 });
