@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: neural-day-api
-  namespace: api-demo
+  namespace: apidemo
 spec:
   replicas: 1
   selector:
@@ -28,23 +28,19 @@ spec:
             memory: 500Mi
 
 ---
-kind: Service
-apiVersion: v1
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
-  name: neural-day-api
-  namespace: api-demo
-
+  name: api-demo-ingress
+  namespace: apidemo
 spec:
-  ports:
-    - protocol: TCP
-      port: 5000
-      targetPort: 5000
-      nodePort: 30002
-  selector:
-    app: neural-day-api
-  type: NodePort
-  sessionAffinity: None
-  externalTrafficPolicy: Cluster
-status:
-  loadBalancer: {}
+  rules:
+   -  host: api.neural-day.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: neural-day-api
+              servicePort: 80
 
