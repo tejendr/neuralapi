@@ -31,7 +31,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: neural-day-api
+  name: neural-day-api-service
   namespace: api-demo
 
 spec:
