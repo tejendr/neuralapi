@@ -87,7 +87,8 @@ router.get("/unassigned", async (req, res) => {
 		});
 	} catch (error) {
 		res.status(404).json({
-			status: "Failed"
+			status: "Failed",
+			error: error.message
 		});
 	}
 });
@@ -115,7 +116,7 @@ router.get("/action/:action", async (req, res) => {
 			res.status(400).json({
 				status: "Failed",
 				msg:
-					"Please send a valid action which is [Schedule, Disqualify, Shortlist, Assess Further, Future Reference, Schedule Later]"
+					"Please send a valid action which is [Schedule, Disqualify, Shortlist, Assess Further, Future Reference]"
 			});
 		}
 	} catch (error) {
@@ -195,6 +196,29 @@ router.post("/multiple", async (req, res) => {
 });
 
 //get a candidate
+
+router.get("/not-visible", async (req, res) => {
+	try {
+		const candidates = await Candidate.find({
+			visible: false,
+			action: { $exists: false }
+		});
+		res.status(201).json({
+			status: "Success",
+			count: candidates.length,
+			data: {
+				data: candidates
+			}
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: "Failed",
+			error: {
+				message: error.message
+			}
+		});
+	}
+});
 
 router.get("/:candidateId", (req, res) => {
 	const id = req.params.candidateId;
