@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: neural-day-api
-  namespace: apidemo
+  namespace: api-demo
 spec:
   replicas: 1
   selector:
@@ -14,6 +14,8 @@ spec:
       labels:
         app: neural-day-api
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
       - name: neural-day-api
         image: IMAGE_NAME_TO_BE_REPLACED
