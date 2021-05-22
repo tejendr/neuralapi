@@ -17,6 +17,7 @@ spec:
       containers:
       - name: neural-day-api
         image: IMAGE_NAME_TO_BE_REPLACED
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         resources:
