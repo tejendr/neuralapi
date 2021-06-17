@@ -15,21 +15,21 @@ require("dotenv").config("./.env");
 const PORT = process.env.PORT || 5000;
 
 mongoose
-	.connect(process.env.DB_STRING, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useCreateIndex: true,
-		useFindAndModify: false
-	})
-	.then(() => console.log("Connected to DB"))
-	.catch(error => console.log(error));
+  .connect(process.env.db_String, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("Connected to DB"))
+  .catch((error) => console.log(error));
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 app.get("/", (_req, res) => {
-	res.send(
-		"Api at <br><br> /api/candidates <br> /api/vacancies <br> /api/conversation"
-	);
+  res.send(
+    "Api at <br><br> /api/candidates <br> /api/vacancies <br> /api/conversation"
+  );
 });
 
 app.use("/api/candidates", require("./routes/api/candidates"));
