@@ -14,9 +14,12 @@ spec:
       labels:
         app: neural-day-api
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
       - name: neural-day-api
         image: IMAGE_NAME_TO_BE_REPLACED
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         resources:
@@ -26,4 +29,6 @@ spec:
           limits:
             cpu: 500m
             memory: 500Mi
+
+
 
