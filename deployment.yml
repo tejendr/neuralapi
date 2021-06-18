@@ -27,20 +27,3 @@ spec:
             cpu: 500m
             memory: 500Mi
 
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: api-demo-ingress
-  namespace: apidemo
-spec:
-  rules:
-   -  host: api.neural-day.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              serviceName: neural-day-api
-              servicePort: 80
-
