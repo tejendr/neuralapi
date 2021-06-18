@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: neural-day-api
-  namespace: apidemo
+  namespace: api-demo
 spec:
   replicas: 1
   selector:
